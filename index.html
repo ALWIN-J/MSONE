@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/ by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:25:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<title>Msone</title>
+<base  />
+<link rel="stylesheet" href="css/bootstrap.css" media="screen" />
+<link rel="stylesheet" href="css/font-awesome.css" media="all" />
+<link rel="stylesheet" href="css/superfish.css" media="all" />
+<link rel="stylesheet" href="css/awesome-weather.css" media="all" />
+<link rel="stylesheet" href="css/owl.carousel.css" media="all" />
+<link rel="stylesheet" href="css/owl.theme.css" media="all" />
+<link rel="stylesheet" href="css/flexslider.css" media="all" />
+<link rel="stylesheet" href="css/prettyPhoto.css" media="all" />
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/example.css">
+<link rel="stylesheet" href="css/extra.css">
+<link href="css/responsive.css" rel="stylesheet">
+<script src="js/modernizr.custom.60104.js"></script>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=News+Cycle:400,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,400italic' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="administrator/img/favicon.html">
+<script>
+  function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  function is_logged()
+  {
+    var user=getCookie('user');
+    if(user==null)
+    {
+      alert("You must be logged in");
+      location.href='registration-login.html';
+    }
+    else
+    {
+      document.getElementById('user_label').innerHTML=user;
+    }
+  }
+  function logout()
+  {
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;path=/"); });
+    location.href='registration-login.html';
+  }
+  function  getdata()
+  {
+      var urlParams = new URLSearchParams(window.location.search);
+      var page=urlParams.get('page');
+      if(page==null)
+        page=1;
+      var lang=urlParams.get('lang');
+      if(lang==null)
+        lang='%';
+      var gen=urlParams.get('gen');
+      if(gen==null)
+        gen='%';
+
+      var xml=new XMLHttpRequest();
+      xml.open("GET","getdata.php?page="+page+"&by=full&lang="+lang+"&gen="+gen,"true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          var full=document.getElementById('full');
+          full.innerHTML=this.responseText;
+          getlat();
+        }
+      }
+  }
+  getdata();  
+  function  getlangs()
+  {
+      var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=langs","true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          var langs=JSON.parse(this.responseText);
+          for(var k in langs)
+          {
+            if(langs[k]!='')
+            {
+              var cat=document.getElementById('catul');
+              cat.innerHTML+='<li> <a href="index.html?lang='+langs[k]+'">'+langs[k]+'</a></li>';
+            }
+              //$('#lang').html($('#lang').html()+'<li> <a href="category/2.html">'+langs[k]+'</a></li>');
+              //alert(langs[k]);
+          }
+
+        getpop();
+        }
+      }
+  }
+    function  getgen()
+  {
+      var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=gen","true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          var gen=JSON.parse(this.responseText);
+          for(var k in gen)
+          {
+            if(gen[k]!='')
+            {
+              var cat=document.getElementById('genul');
+              cat.innerHTML+='<li> <a href="index.html?gen='+gen[k]+'">'+gen[k]+'</a></li>';
+            }
+              //$('#lang').html($('#lang').html()+'<li> <a href="category/2.html">'+langs[k]+'</a></li>');
+              //alert(langs[k]);
+          }
+
+      
+        }
+      }
+  }
+  function  getlat()
+  {
+      var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=getlat","true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          //var full=document.getElementById('lat');
+          //full.innerHTML=this.responseText;
+          //var res=JSON.parse(this.responseText);
+          //alert(res[0]['Title']);
+          $('#tab2').show();
+          var data = JSON.parse(this.response);
+              window.f=0;
+          data.forEach(myFunction)
+        
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var date=item['date'].split(' ');
+             var date=date[0].split('-');
+             var month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+             //alert(date[2]);
+             var it=' <article class="entry-item clearfix"><div class="entry-content clearfix"><h6 class="entry-title"><a href="desc.html?id='+item['_id']+'">'+item['Title']+' </a></h6><p class="entry-date">'+date[2]+' - <span>'+month[date[1]-1]+'</span></p><span class="entry-view pull-left clearfix"><span class="pull-left">'+item['Director']+'</span></span><span style="float:right;padding-right: 10px;"">'+item['Ratings']+'</span> </div></article>';
+             var tag=document.getElementById('lat');
+             tag.innerHTML+=it;             
+             //alert(window.its[window.i]);
+             window.f=1;
+            }
+
+            if(f==0)
+            {
+              $('#mysub').html('<br><br>No  latest movies');
+            }
+            getlangs();
+            getauthors();
+        }
+      }
+  }
+  function sss()
+  {
+
+    $('#seresults ').html('');
+    $('#tab21').show();
+    var key=$('#setext').val();
+    if(key=='')
+    {
+      return;
+    }
+    
+    $('#sediv').animate({height:'500px'},500);
+
+    var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=search&key="+key,"true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          //var full=document.getElementById('lat');
+          //full.innerHTML=this.responseText;
+          //var res=JSON.parse(this.responseText);
+          //alert(res[0]['Title']);
+             //alert(this.responseText);
+
+          var data = JSON.parse(this.response);
+              window.f=0;
+          data.forEach(myFunction)
+        
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+
+             var re=new RegExp(key,"i");
+             var re2=new RegExp(key,"i");
+             key1=item['Title'].match(re2);
+             item['Title']=item['Title'].replace(re,"<span class=high>"+key1+"</span>");
+
+             var re=new RegExp(key,"i");
+             var re2=new RegExp(key,"i");
+             key2=item['Director'].match(re2);
+             item['Director']=item['Director'].replace(re,"<span class=high>"+key2+"</span>");
+
+
+             var date=item['date'].split(' ');
+             var date=date[0].split('-');
+             var month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+             var it='<li style="margin-bottom:-23px;">                  <article class="entry-item clearfix">                  <p class="entry-date pull-left"><span>'+date['2']+'</span><span class="entry-month">'+month[date[1]-1]+'</span></p>                      <h6 class="entry-title"><a href="desc.html?id='+item['fid']+'">'+item['Title']+' </a></h6>                  <div class="entry-content">                    <header class="clearfix"> <span class="entry-view pull-left clearfix">'+item['Director']+'<br></span>                         <span style="float:right; padding-right: 0px;">'+item['Ratings']+'</span>                    </header>                  </div>                </article>              </li>';
+             
+             var tag=document.getElementById('seresults');
+             tag.innerHTML+=it;         
+
+             //alert(window.its[window.i]);
+             window.f=1;
+            }
+            //alert(window.f);
+            if(window.f===0)
+            {
+              $('#seresults').html('<br><br>No  results');
+            }
+
+        }
+      }
+  }
+  function getpop()
+  {
+    var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=getpop","true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          var data = JSON.parse(this.responseText);
+          window.f=0;
+          //alert(this.responseText);
+          data.forEach(myFunction)
+        
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             
+
+             var date=item['date'].split(' ');
+             var date=date[0].split('-');
+             var month=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+             var it=' <li><article class="entry-item clearfix"><p class="entry-date pull-left"><span>'+date[2]+'</span><span class="entry-month">'+month[date[1]]+'</span></p><h6 class="entry-title"><a href="desc.html?id='+item['_id']+'">'+item['Title']+' </a></h6><div class="entry-content"><header class="clearfix"><span class="entry-view pull-left clearfix poplike"><span class="pull-left">'+item['c']+' Likes</span></span><p><span class=popby>By '+item['Director']+' </span></p><span class=poprat style="float:right">'+item['Ratings']+'</span><br><header></div></article></li>';
+             //alert(it);
+             var tag=document.getElementById('poplist');
+             tag.innerHTML+=it;  
+
+        }
+         getgen(); 
+      }
+  }
+}
+function getauthors()
+{
+      $('#topauth').html('');
+      var xml=new XMLHttpRequest();
+      xml.open("GET","get.php?by=authors","true");
+      xml.send();
+      xml.onreadystatechange=function()
+      {
+        if(xml.readyState==4)
+        {
+          var data = JSON.parse(this.responseText);
+          window.f=0;
+          //alert(this.responseText);
+          data.forEach(myFunction)
+        
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var it='<li class=topa><i class="fa fa-angle-double-right"></i>  <a href="#">'+item['u']+' ('+item['c']+')     </a></li>';
+             //alert(it);
+             var tag=document.getElementById('topauth');
+             tag.innerHTML+=it;  
+        }
+      }
+}
+}
+  function  clos()
+  {
+    $('#sediv').animate({height:'0px'},500);
+    $('#setext').val('');
+    $('#tab2').show();
+  }
+  </script>
+  <style type="text/css">
+            @font-face 
+    {
+     font-family: avenir;
+     src:url(fonts/avenir.otf);
+    }
+    #user_label_i
+    {
+      font-weight: bolder;
+      border: 1px solid black;
+      padding: 1px;
+    }
+
+    .entry-thumb
+    {
+      border: 3px solid white;
+      transition: .5s ease;
+    }
+    .entry-thumb:hover
+    {
+      border: 3px solid red;
+      box-shadow: 0px 0px 50px;
+    }
+    .pos
+    {
+      max-height: 430px;  
+    }
+    #cat:hover #catul
+    {
+      display: inline;
+      transition:   0.4s ease;x
+    }
+    .uls:hover
+    {
+      border:   1px solid white;
+      transition:   0.4s ease;
+    }
+    #gen:hover #genul
+    {
+      display: inline;
+      transition:   0.4s ease;x
+    }
+    .uls:hover
+    {
+      border:   1px solid white;
+      transition:   0.4s ease;
+    }
+    .uls
+    {
+      border:   1px solid rgba(1,1,1,0);
+    }
+    .ls
+    {
+      box-shadow:   0px 0px 10px;
+    }
+    .center {
+  text-align: center;
+}
+
+.pagination {
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  margin: 0 4px;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
+}
+#sediv
+{
+  height:0px;
+  overflow-x:scroll;
+}
+.high
+{
+  background-color:yellow;
+}
+#setext
+{
+  border:1px solid red;
+}
+#auth
+{
+  font-weight:bolder;
+  font-size:  15px;
+  margin-top:8px;
+  text-transform:   uppercase;  
+}
+#like
+{
+  background-color:rgba(0,255,10,1);
+  color:black;
+  padding:  8px;
+  border-radius:  10px;
+}
+.poplike,.poprat
+{
+  border:1px solid red;
+  padding:3px;
+  background-color:rgba(255,20,0,1);
+  color:white;
+  border-radius:10px;
+}
+.popby
+{
+
+  border:1px solid red;
+  padding:3px;
+  //background-color:rgba(255,20,0,1);
+  color:black;
+  border-radius:10px;
+  font-family:avenir;
+}
+.pagination a:hover:not(.active) {background-color: #ddd;}
+.entry-title,.pull-left
+{
+  font-family:avenir;
+}
+.kp-article-element-2
+{
+  box-shadow:0px 0px 10px;
+  padding:4px;
+  margin:3px;
+}
+.topa
+{
+  text-transform:uppercase; 
+  letter-spacing:2px;           
+}
+
+  </style>
+</head>
+
+<body class="kp-home-2">
+<div class="kp-header">
+  <div id="header-top">
+    <div class="wrapper clearfix">      
+      <nav id="top-nav" class="pull-left">
+        <ul id="top-menu" class="clearfix">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#"></a></li>
+           		   	   <li><a href="registration-login.html">Registration / Login</a></li>
+                     </ul>
+      </nav>
+      <ul class="socials-link clearfix pull-right">
+        <li><a href="../../../external.html?link=https://facebook.com/ " target="_blank" class="fa fa-facebook"></a></li>
+        <li><a href="../../../external.html?link=https://twitter.com/ " target="_blank" class="fa fa-twitter"></a></li>
+        <li><a href="../../../external.html?link=https://twitter.com/ " target="_blank" class="fa fa-google-plus"></a></li>
+        <li><a href="../../../external.html?link=https://login.skype.com/login" target="_blank" class="fa fa-skype"></a></li>
+        </ul>
+    </div>
+  </div>
+  <div id="header-middle">
+    <div class="wrapper clearfix">      
+      <div id="logo-image" class="pull-left">
+      <a href="index.html">
+      <img src="upload/og.png" style="width: 30%" />  	
+      </a>
+      </div>
+     
+      <nav id="main-nav" class="pull-right">
+        <ul id="main-menu" class="clearfix">
+          <li><a href="index.html" class=uls>Home</a></li>
+          <li id=cat class=uls><a>languages</a>
+          <ul id=catul style="top:35px;" class=ls>
+                         </ul>
+          </li>
+           <li id=gen class=uls><a>Genres</a>
+            <ul id=genul style="top:35px;" class=ls>
+
+                         </ul>
+          </li>
+          <li  class=uls><a href="dash.html">My dash</a></li>
+          <li id="user_label_i"><a ><span id=user_label></span>&nbsp&nbsp&nbsp<i class="fa fa-power-off" onclick="logout()"></i></a></li>
+          
+        </ul>
+        <i class='fa fa-align-justify'></i>
+        <ul id="mobile-menu">
+          <li> <a href="index.html">Home</a></li>
+          <li> <a>categories</a>
+            <ul>
+                                          <li> <a href="category/2.html">Tamil</a></li>
+                          <li> <a href="category/5.html">Hindi</a></li>
+                          <li> <a href="category/6.html">Nepali</a></li>
+                          <li> <a href="category/7.html">Teluga</a></li>
+                          <li> <a href="category/8.html">English</a></li>
+                         </ul>
+          </li>
+         <li><a>Genres</a>
+          <ul>
+                                        <li><a href="genres/1.html">Dance</a></li>
+                        <li><a href="genres/3.html">Romance</a></li>
+                        <li><a href="genres/6.html">Comedy</a></li>
+                        <li><a href="genres/7.html">Action</a></li>
+                        <li><a href="genres/9.html">Animation</a></li>
+                        <li><a href="genres/10.html">Musical</a></li>
+                         </ul>
+          </li>
+          <li><a href="actors.html">Actors</a></li>
+          <li><a href="contact.html"><i class="fa fa-off"></i></a></li>
+        </ul>
+      </nav>      
+    </div>
+  </div>
+</div>
+<div class="dark-box">
+  <div class="wrapper">
+    <div class="kp-headline-wrapper clearfix"> 
+      <div class="kp-headline clearfix">
+        <dl class="ticker-1 clearfix">
+        </dl>
+      </div>
+    </div>
+    <div class="search-box">
+    <form method="post" class="search-form clearfix">
+    <input type="text" onkeyup="sss()" name="search" id=setext class="form-control" onBlur="" onFocus="" placeholder="Enter your keywords">
+    <div class="search-submit"><span class="fa fa-search"></span> </div>
+      </form>
+    </div>
+  </div>
+</div><div id="main-content">
+  <div class="wrapper">
+   <div class="clear"></div>
+    <div class="widget-area-6">
+   <div class="widget-area-12 pull-left">      
+      <div class="widget kp-tab-isotope-widget">
+        <div class="list-container-3 kp-tab-3-list-container clearfix">
+         </div>
+        <div class="tab-container-3">
+          <div class="tab-content-3" id="tab-3-1">
+            <div class="kp-isotope-wrapper">
+              <ul class="clearfix kp-article-list-2" id=full>
+
+              				  
+             </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+ <div class="widget-area-13 pull-left">
+
+
+<div class="widget kp-sidebar-tab-widget">
+  <div id=sediv>
+        <div class="list-container-2-3 kp-tab-2-list-container">
+          <ul class="tabs-2 clearfix" style='padding:  0px;margin:  -10px;'>
+            <li class="active" ><a>Results <i class='fa fa-times' onclick=clos() style='color:black;'></i></a></li>
+          </ul>
+        </div>
+        <div class="tab-container-2-3">
+          <div class="tab-content-2-3" id="tab21">
+            <ul class="clearfix" id=seresults>
+
+
+                          <li style='margin-bottom:-23px;'>                  <article class="entry-item clearfix">                  <p class="entry-date pull-left"><span>22</span><span class="entry-month">Oct</span></p>                      <h6 class="entry-title"><a href="prem-ratan-dhan-payo--251.html">Prem Ratan Dhan Payo </a></h6>                  <div class="entry-content">                    <header class="clearfix"> <span class="entry-view pull-left clearfix">chrsuksdbkkjnkj</span>                         <span style='float:right; padding-right: 0px;'>646</span>                    </header>                  </div>                </article>              </li>
+ 
+
+         
+        
+   
+                           </ul>
+          </div>
+          
+          <!--<div>Comment</div>-->
+                      
+        </div>
+      </div>
+      </div>
+
+
+
+     <div class="widget-area-4">
+      <div class="widget kp-latest-video-widget">
+        <h2 class="widget-title">Latest Subtitles</h2>
+        <ul class="clearfix">
+           <li id=lat>
+                      
+                       
+                      </li>
+        </ul>
+      </div>
+    </div>
+      <div class="widget kp-sidebar-tab-widget">
+        <div class="list-container-2-3 kp-tab-2-list-container">
+          <ul class="tabs-2 clearfix">
+            <li class="active"><a href="#tab-2-31">Popular</a></li>
+          </ul>
+        </div>
+        <div class="tab-container-2-3">
+          <div class="tab-content-2-3" id="tab2" style="display:block;">
+            <ul class="clearfix" id=poplist>
+
+             
+
+
+                            
+                           
+                           </ul>
+          </div>
+       
+          <!--<div>Comment</div>-->
+                      
+        </div>
+      </div>
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>    <div class="clear"></div>
+  </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript">                                     
+$(document).ready(function()
+{ $("#ajax-contact-form").submit(function() { 
+ jQuery("#submit").attr("value", "Sending...");
+               
+var str = $(this).serialize(); $.ajax( { type: "POST", url: "send.php", data: str, success: function(msg)
+						{ if(msg == 'OK') // Message Sent? Show the 'Thank You' message and hide the form
+							{ result = '<div class="notification_ok">Your message has been sent. Thank you!<br> <a href="#" onclick="freset();return false;">send another mail</a></div>'; 
+							jQuery("#submit").attr("value", "Signup");
+							 } 							else
+							{ result = msg; } $("#note").html(result); } 
+				}); return false; }); });
+function freset()
+{ 	$("#note").html(''); 	document.getElementById('ajax-contact-form').reset(); 	$("#fields").show();}
+
+</script>
+<div id="bottom-sidebar">
+  <div class="wrapper">
+    <div class="row">
+    <div class="col-md-4 col-sm-4">
+        <div class="widget kp-twitter-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-th-list"></i> <span class="pull-left">Top Authors</span> </h6>
+          <div id="footer_nav">
+          	  <ul id=topauth>
+              	                                <li><i class="fa fa-angle-double-right"></i>  <a href="genres/1.html">Dance</a></li>
+                               
+             </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <!--
+        <div class="widget kp-latest-comments-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-comments-o pull-left"></i> <span class="pull-left">Recent Movie</span> </h6>
+          <ul class="clearfix">
+                      <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="prem-ratan-dhan-payo--251.html"><img src="upload/12765_maxresdefault.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="prem-ratan-dhan-payo--251.html">Prem Ratan Dhan Payo </a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Oct 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="blackhat-54.html"><img src="upload/89807_blackhat.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="blackhat-54.html">Blackhat</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="avengers-age-of-ultron-318.html"><img src="upload/47006_avengers-age-of-ultron.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="avengers-age-of-ultron-318.html">Avengers Age Of Ultron</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+           	  
+          </ul>
+        </div>
+      -->
+      </div>            
+      <div class="col-md-4 col-sm-4">
+        <div class="widget widget_text">
+          <h6 class="widget-title clearfix"> <i class="fa fa-envelope"></i> <span class="pull-left">എന്താണ് എംസോൺ?</span> </h6>
+          <p><p>ലോക സിനിമകള്‍ക്ക് ഇംഗ്ലീഷ് കൂടാതെ ഫ്രഞ്ച്, ജര്‍മന്‍, ഇറ്റാലിയൻ, സ്പാനിഷ്, അറബ് അങ്ങനെ എല്ലാ ഭാഷകള്‍ക്കും സബ്ടൈറ്റില്‍ ലഭ്യമാണ്. എന്തുകൊണ്ട് മലയാളത്തിലും അത് ലഭ്യമാക്കിക്കൂടാ എന്ന ആശയത്തിൽ നിന്നാണ് എംസോൺ പിറക്കുന്നത്.
+നമ്മുടെ മാതൃഭാഷയായ മലയാളത്തില്‍ ക്ലാസിക്കുകളായ സിനിമകള്‍ക്ക് സബ്ടൈറ്റില്‍ ലഭ്യമാക്കുക എന്നതായിരുന്നു  എംസോണിന്റെ പ്രാഥമിക ദൗത്യം.  എന്നാൽ പ്രേക്ഷകരുടെ പ്രോഹത്സാഹനവും ആവശ്യങ്ങളും മാനിച്ച് ക്ലാസ്സിക് ഇതര സിനിമകളും പ്രസിദ്ധീകരിക്കുന്നുണ്ട് ഇപ്പോൾ. കൂടാതെ ഇന്ത്യയിലെ ഇതര ഭാഷാ സിനിമകളുടേയും പരിഭാഷകൾ പ്രസിദ്ധീകരിക്കുന്നു. ഇപ്പോഴത് തമിഴ് സിനിമകളുടെ വരെ പരിഭാഷയിലെത്തി നിൽക്കുന്നു.</p>
+
+ </p>
+        </div><!--
+        <div class="widget kp-newsletter-widget">
+          <form id="ajax-contact-form" action="javascript:alert('success!');" method="post" class="newsletter-form clearfix">
+            <p class="input-email clearfix">
+              <input type="text" name="email" placeholder="Type your e-mail adress" class="email" size="40" required="required">
+              <input type="submit" value="Send Up" class="submit" id="submit">
+            </p>
+          </form>
+          <div id="newsletter-response"></div>
+          </div>
+        -->
+      </div>
+    </div>
+  </div>
+  <p id="back-top"> <a href="#top"></a> </p>
+</div>
+<footer id="kp-footer">
+</footer>
+<script src="js/jquery-1.10.2.min.js"></script> 
+<script src="js/retina.js"></script> 
+<script type="text/javascript" src="../../../external.html?link=http://maps.google.com/maps/api/js?sensor=true"></script> 
+<script src="js/gmaps.js"></script>
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/custom.js" charset="utf-8"></script>
+</body>
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/ by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:28:58 GMT -->
+</html>
+<script type="text/javascript">
+  
+  is_logged();
+</script>

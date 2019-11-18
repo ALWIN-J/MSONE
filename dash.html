@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/ by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:25:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<title>Msone</title>
+<base  />
+<link rel="stylesheet" href="css/bootstrap.css" media="screen" />
+<link rel="stylesheet" href="css/font-awesome.css" media="all" />
+<link rel="stylesheet" href="css/superfish.css" media="all" />
+<link rel="stylesheet" href="css/awesome-weather.css" media="all" />
+<link rel="stylesheet" href="css/owl.carousel.css" media="all" />
+<link rel="stylesheet" href="css/owl.theme.css" media="all" />
+<link rel="stylesheet" href="css/flexslider.css" media="all" />
+<link rel="stylesheet" href="css/prettyPhoto.css" media="all" />
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/example.css">
+<link rel="stylesheet" href="css/extra.css">
+<link href="css/responsive.css" rel="stylesheet">
+<script src="js/modernizr.custom.60104.js"></script>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=News+Cycle:400,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,400italic' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="administrator/img/favicon.html">
+<script>
+  function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+  }
+  function is_logged()
+  {
+    var user=getCookie('user');
+    if(user==null)
+    {
+      alert("You must be logged in");
+      location.href='registration-login.html';
+    }
+    else
+    {
+      document.getElementById('user_label').innerHTML=user;
+    }
+  }
+  function logout()
+  {
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=; expires=Thu, 01-Jan-1970 00:00:01 GMT;path=/"); });
+    location.href='registration-login.html';
+  }
+  getbook();
+  function getbook()
+  {
+    var xml=new XMLHttpRequest();
+    xml.open("get","get.php?by=getbook","true");
+    xml.send();
+    xml.onreadystatechange =function ()
+    {
+      if(xml.readyState==4)
+      {
+          var data = JSON.parse(this.response);
+          window.f=0;
+          data.forEach(myFunction)
+          
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var date=item['date'].split(' ');
+             var it='<article class="entry-item clearfix"><div class="entry-content clearfix"><h6 class="entry-title"><a href="submit.php?id='+item['Film_id']+'">'+item['Title']+' </a></h6><p class="entry-date">'+item['Year']+'</p><span class="entry-view pull-left clearfix">: '+date[0]+' <span class="pull-left">Booked on </span></span></div></article>';
+             var tag=document.getElementById('mybook');
+             tag.innerHTML+=it;             
+             //alert(window.its[window.i]);
+             window.f=1;
+            }
+
+            if(window.f==0)
+            {
+              $('#mybook').html('<br><br>No Bookings ');
+            }
+      }
+    }
+  }
+  getpend();
+    function getpend()
+  {
+    var xml=new XMLHttpRequest();
+    xml.open("get","get.php?by=getpend","true");
+    xml.send();
+    xml.onreadystatechange =function ()
+    {
+      if(xml.readyState==4)
+      {
+          var data = JSON.parse(this.response);
+          window.f=0;
+          data.forEach(myFunction)
+          
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var cc='';
+             var bb='';
+             var date=item['date'].split(' ');
+             
+             if(item['status']=='-1')
+             {
+              cc='style="background-color:grey;"';
+              bb="<span style='background-color:red;color:white;padding:3px;border-radius:10px;'>Rejected";
+            }
+             var it='<article  class="entry-item clearfix"><div class="entry-content clearfix"><h6 class="entry-title" ><a href=# "desc.html?id='+item['_id']+'">'+item['Title']+' </a>'+bb+'</h6><p class="entry-date"  '+cc+'>'+item['Year']+'</p><span class="entry-view pull-left clearfix">: '+date[0]+' <span class="pull-left">Submitted on </span></span></div></article>';
+             var tag=document.getElementById('mypend');
+             tag.innerHTML+=it;             
+             //alert(window.its[window.i]);
+             window.f=1;
+            }
+            if(f==0)
+            {
+              $('#mypend').html('<br><br>No Pending ');
+            }
+      }
+    }
+  }
+  getsub();
+    function getsub()
+  {
+    var xml=new XMLHttpRequest();
+    xml.open("get","get.php?by=getsub","true");
+    xml.send();
+    xml.onreadystatechange =function ()
+    {
+      if(xml.readyState==4)
+      {
+          var data = JSON.parse(this.response);
+              window.f=0;
+          data.forEach(myFunction)
+        
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var date=item['date'].split(' ');
+             var it='<article class="entry-item clearfix"><div class="entry-content clearfix"><h6 class="entry-title"><a href="desc.html?id='+item['_id']+'">'+item['Title']+' </a></h6><p class="entry-date">'+item['Year']+'</p><span class="entry-view pull-left clearfix">: '+date[0]+' <span class="pull-left">Published on </span></span></div></article>';
+             var tag=document.getElementById('mysub');
+             tag.innerHTML+=it;             
+             //alert(window.its[window.i]);
+             window.f=1;
+            }
+
+            if(f==0)
+            {
+              $('#mysub').html('<br><br>No Subtitles ');
+            }
+      }
+    }
+  }
+  function  sea()
+  {
+      var se=document.getElementById('se').value;
+      var result=document.getElementById('result');
+      result.innerHTML ="Searching....";
+  $('#bod').fadeTo(300,0.3);
+  $('#msg').fadeTo(300,1);
+  $('#msg').html('Searching....');
+        var request = new XMLHttpRequest();
+var url='http://www.omdbapi.com/?s='+se+'&apikey=36a1398d';
+//var url='__docs/apidata.txt';
+        request.open('GET', url, true);
+        
+        request.onload = function() {
+          // Begin accessing JSON data here
+//alert(url);             
+            window.its=[1,2,3];
+             window.i=0;
+          //alert(request.status);
+          if (request.status >= 200 && request.status < 400) 
+          {
+          var data = JSON.parse(this.response)
+          if(data['Response']=="True")
+          {
+            //alert('k');
+            //alert(data['Search'][0]['Title']);
+              result .innerHTML="Results are";
+              window.count=0;
+            data['Search'].forEach(myFunction)
+           
+            function myFunction(item, index, arr)
+            {
+             //alert(item['Title']);
+             //alert(window.count++);
+             var it='<article class="entry-item clearfix" onclick="book(\''+item['Title']+'\',\''+item['imdbID']+'\')"><div class="entry-content clearfix"><h6 class="entry-title"><a href="#">'+item['Title']+'<span id="se'+window.count+'"></span></a></h6><p class="entry-date">'+item['Year']+'</p><span class="entry-view pull-left clearfix"><span class="pull-left">'+item['Type']+'</span></span> </div></article>';
+             var tag=document.getElementById('result');
+             tag.innerHTML+=it;
+             window.its[window.i]=item['imdbID'];
+             
+             //alert(window.its[window.i]);
+             window.i++;
+             window.count++;
+            }
+
+              $('#bod').fadeTo(300,1);
+              $('#msg').fadeTo(300,0);
+              $('#msg').hide();
+          }
+          else
+          {
+            //alert('no');
+            document.getElementById('result').innerHTML="No result  found";
+
+              $('#bod').fadeTo(300,1);
+              $('#msg').fadeTo(300,0);
+
+              $('#msg').hide();
+          }
+          check(window.its);
+          } 
+         else 
+         {
+         console.log('error')
+         }
+  }
+  request.send();
+}
+function ok()
+{
+   $('#bod').fadeTo(300,1);
+   $('#msg').fadeTo(300,0); 
+              $('#msg').hide();
+              $('#mybook').html('');
+              getbook();
+}
+function  book(t,i)
+{
+
+   $('#bod').fadeTo(300,0.3);
+   $('#msg').fadeTo(300,1);
+   $('#msg').html('Loading..');
+   var xml=new XMLHttpRequest();
+   xml.open("get","get.php?by=book&i="+i,"true");
+   xml.send();
+   xml.onreadystatechange=function()
+    {
+      if(xml.readyState==4)
+      {
+          if(xml.responseText=='0')
+          {
+              $('#msg').html("Sorry, the film '"+t+"' is already booked <br><br><input type=button style='background-color:black;color:white;width:20%;border:none;' value='OK' onclick=ok()>");
+              //alert("SRT for the film '"+t+"' already exists");
+          }
+          else if(xml.responseText=='1')
+          {
+              $('#msg').html("The film '"+t+"' is already submitted <br><br><input type=button style='background-color:black;color:white;width:20%;border:none;' value='OK' onclick=ok()>");
+              //alert("The film is already booked '"+t+"'");
+          }
+          else if(xml.responseText=='2')
+          {
+              $('#msg').html("The film '"+t+"' is already exists <br><br><input type=button style='background-color:black;color:white;width:20%;border:none;' value='OK' onclick=ok()>");
+              //alert("The film '"+t+"' has been booked succesfully ");
+
+          }
+          else if(xml.responseText=='3')
+          {
+              $('#msg').html("The film '"+t+"' has booked susccessfully  <br><br><input type=button style='background-color:black;color:white;width:20%;border:none;' value='OK' onclick=ok()>");
+              //alert("The film '"+t+"' has been booked succesfully ");
+
+          }
+
+      }
+    }
+   //alert(id);
+   
+}
+function  check(its)
+{
+    var json=JSON.stringify(its);
+    //alert(json);
+    var xml =new XMLHttpRequest();
+    xml.open("get","get.php?by=exists&t="+json,"false");
+    xml.send();
+    xml.onreadystatechange=function()
+    {
+      if(xml.readyState==4)
+      {
+        //alert(xml.responseText);
+        var obj = JSON.parse(xml.responseText);
+        //alert(obj[4]);
+        for (var i = 0; i <   obj.length; i++) 
+        {
+            if(obj[i]=="1")
+            {
+              document.getElementById('se'+i).innerHTML ="<i class='fa fa-check'></i>";
+            }
+        }
+      }
+    }
+}
+function  load()
+{
+  $('#bod').fadeTo(300,0.3);
+  $('#msg').fadeTo(300,1);
+}
+  </script>
+  <style type="text/css">
+    #user_label_i
+    {
+      font-weight: bolder;
+      border: 1px solid white;
+      padding: 1px;
+    }
+
+    .entry-thumb
+    {
+      border: 3px solid white;
+      transition: .5s ease;
+    }
+    .entry-thumb:hover
+    {
+      border: 3px solid red;
+      box-shadow: 0px 0px 50px;
+    }
+    #new
+    {
+      background-color:   red;
+      border:   none;
+      color:white;
+      border-radius:30px;
+      outline:  none;
+    }
+    #se
+    {
+      width:  80%;
+      border:   none; 
+      border-bottom:  1px solid red;
+      outline:  none; 
+      font-size:  20px;
+      font-family:  monospace ;  
+    }
+ @font-face 
+    {
+     font-family: avenir;
+     src:url(fonts/avenir.otf);
+    }
+    .se
+    {
+      background-color:   rgba(255,0,10);
+      border:   none; 
+      color:white;
+      padding:  8px;
+      margin:   10px;
+   }
+   #msg
+   {
+    position:absolute;  
+    top:30%;
+    left:30%;
+    width:600px;
+    height:300px;
+    background-color:  red;
+    text-align:  center;  
+    padding-top:9%;
+    color:white;
+    display:none;
+    font-size:20px;
+    font-family:avenir;
+    opacity: 0;
+   }
+    .clearfix,.entry-title,.widget-title,.entry-date
+    {
+     font-family: avenir;
+    }
+  </style>
+</head>
+
+<body class="kp-home-2">
+<div id=bod>
+<div class="kp-header">
+  <div id="header-top">
+    <div class="wrapper clearfix">      
+      <nav id="top-nav" class="pull-left">
+        <ul id="top-menu" class="clearfix">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#"></a></li>
+           		   	   <li><a href="registration-login.html">Registration / Login</a></li>
+                     </ul>
+      </nav>
+      <ul class="socials-link clearfix pull-right">
+        <li><a href="../../../external.html?link=https://facebook.com/ " target="_blank" class="fa fa-facebook"></a></li>
+        <li><a href="../../../external.html?link=https://twitter.com/ " target="_blank" class="fa fa-twitter"></a></li>
+        <li><a href="../../../external.html?link=https://twitter.com/ " target="_blank" class="fa fa-google-plus"></a></li>
+        <li><a href="../../../external.html?link=https://login.skype.com/login" target="_blank" class="fa fa-skype"></a></li>
+        </ul>
+    </div>
+  </div>
+  <div id="header-middle">
+    <div class="wrapper clearfix">      
+      <div id="logo-image" class="pull-left">
+      <a href="index.html">
+      <img src="upload/og.png" style="width: 30%" />  	
+      </a>
+      </div>
+     
+      <nav id="main-nav" class="pull-right">
+        <ul id="main-menu" class="clearfix">
+         
+           
+          <li><a href="index.html">Home</a></li>
+          <li id="user_label_i"><a onclick="logout()"><span id=user_label></span>&nbsp&nbsp&nbsp<i class="fa fa-power-off"></i></a></li>
+          
+        </ul>
+        <i class='fa fa-align-justify'></i>
+        <ul id="mobile-menu">
+          <li> <a href="index.html">Home</a></li>
+          <li> <a>categories</a>
+            <ul>
+                                          <li> <a href="category/2.html">Tamil</a></li>
+                          <li> <a href="category/5.html">Hindi</a></li>
+                          <li> <a href="category/6.html">Nepali</a></li>
+                          <li> <a href="category/7.html">Teluga</a></li>
+                          <li> <a href="category/8.html">English</a></li>
+                         </ul>
+          </li>
+         <li><a>Genres</a>
+          <ul>
+                                        <li><a href="genres/1.html">Dance</a></li>
+                        <li><a href="genres/3.html">Romance</a></li>
+                        <li><a href="genres/6.html">Comedy</a></li>
+                        <li><a href="genres/7.html">Action</a></li>
+                        <li><a href="genres/9.html">Animation</a></li>
+                        <li><a href="genres/10.html">Musical</a></li>
+                         </ul>
+          </li>
+          <li><a href="actors.html">Actors</a></li>
+          <li><a href="contact.html"><i class="fa fa-off"></i></a></li>
+        </ul>
+      </nav>      
+    </div>
+  </div>
+</div>
+<div class="dark-box">
+  <div class="wrapper">
+    <div class="kp-headline-wrapper clearfix"> 
+      <div class="kp-headline clearfix">
+        <dl class="ticker-1 clearfix">
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+     <div class="widget-area-13 pull-left" style="background-color: white;overflow-x:scroll;height:500px ">
+     <div class="widget-area-4">
+      <div class="widget kp-latest-video-widget">
+        <h2 class="widget-title">My Subtitles</h2>
+        <ul class="clearfix">
+           <li id=mysub>
+                       
+           </li>
+        </ul>
+      </div>
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div> 
+
+ <div class="widget-area-13 pull-left"  style="background-color: white;overflow-x:scroll;height:500px ">
+     <div class="widget-area-4">
+      <div class="widget kp-latest-video-widget">
+        <h2 class="widget-title">Pending Submissions</h2>
+        <ul class="clearfix">
+           <li  id=mypend>
+
+
+                      </li>
+        </ul>
+      </div>
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+
+     <div class="widget-area-13 pull-left" style="background-color: white;overflow-x:scroll;height:500px ">
+     <div class="widget-area-4">
+      <div class="widget kp-latest-video-widget">
+        <h2 class="widget-title">My Bookings</h2>
+        <ul class="clearfix">
+           <li id=mybook>
+
+
+           
+
+                      </li>
+        </ul>
+      </div>
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+
+     <div class="widget-area-13 pull-left" style="background-color: white;overflow-x:scroll;height:500px ">
+     <div class="widget-area-4">
+      <div class="widget kp-latest-video-widget">
+        <h2 class="widget-title">Book a film</h2>
+        <ul class="clearfix">
+           <li>
+              <input type=text id=se placeholder="Title"><button class=se onclick="sea()"><i class="fa fa-search"></i></button>
+<div id=result>
+
+
+</div>
+                      </li>
+        </ul>
+      </div>
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+     
+      <div class="widget kp-adv-widget"> <a href="../../../external.html?link=https://www.facebook.com/" target="_blank"><img src="upload/17770_banner-1.html" alt="" /></a> </div>
+    </div>  
+
+
+
+
+
+
+
+      <div class="clear"></div>
+  </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript">                                     
+$(document).ready(function()
+{ $("#ajax-contact-form").submit(function() { 
+ jQuery("#submit").attr("value", "Sending...");
+               
+var str = $(this).serialize(); $.ajax( { type: "POST", url: "send.php", data: str, success: function(msg)
+						{ if(msg == 'OK') // Message Sent? Show the 'Thank You' message and hide the form
+							{ result = '<div class="notification_ok">Your message has been sent. Thank you!<br> <a href="#" onclick="freset();return false;">send another mail</a></div>'; 
+							jQuery("#submit").attr("value", "Signup");
+							 } 							else
+							{ result = msg; } $("#note").html(result); } 
+				}); return false; }); });
+function freset()
+{ 	$("#note").html(''); 	document.getElementById('ajax-contact-form').reset(); 	$("#fields").show();}
+
+</script>
+<div id="bottom-sidebar">
+  <div class="wrapper">
+    <div class="row">
+    <div class="col-md-4 col-sm-4">
+        <div class="widget kp-twitter-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-th-list"></i> <span class="pull-left">Genres Category</span> </h6>
+          <div id="footer_nav">
+          	  <ul>
+              	                                <li><i class="fa fa-angle-double-right"></i>  <a href="genres/1.html">Dance</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="#">Romance</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="#">Comedy</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="#">Action</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="#">Animation</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="#">Musical</a></li>
+                               
+             </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <!--
+        <div class="widget kp-latest-comments-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-comments-o pull-left"></i> <span class="pull-left">Recent Movie</span> </h6>
+          <ul class="clearfix">
+                      <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="prem-ratan-dhan-payo--251.html"><img src="upload/12765_maxresdefault.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="prem-ratan-dhan-payo--251.html">Prem Ratan Dhan Payo </a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Oct 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="blackhat-54.html"><img src="upload/89807_blackhat.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="blackhat-54.html">Blackhat</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="avengers-age-of-ultron-318.html"><img src="upload/47006_avengers-age-of-ultron.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="avengers-age-of-ultron-318.html">Avengers Age Of Ultron</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+           	  
+          </ul>
+        </div>
+      -->
+      </div>            
+      <div class="col-md-4 col-sm-4">
+        <div class="widget widget_text">
+          <h6 class="widget-title clearfix"> <i class="fa fa-envelope"></i> <span class="pull-left">എന്താണ് എംസോൺ?</span> </h6>
+          <p><p>ലോക സിനിമകള്‍ക്ക് ഇംഗ്ലീഷ് കൂടാതെ ഫ്രഞ്ച്, ജര്‍മന്‍, ഇറ്റാലിയൻ, സ്പാനിഷ്, അറബ് അങ്ങനെ എല്ലാ ഭാഷകള്‍ക്കും സബ്ടൈറ്റില്‍ ലഭ്യമാണ്. എന്തുകൊണ്ട് മലയാളത്തിലും അത് ലഭ്യമാക്കിക്കൂടാ എന്ന ആശയത്തിൽ നിന്നാണ് എംസോൺ പിറക്കുന്നത്.
+നമ്മുടെ മാതൃഭാഷയായ മലയാളത്തില്‍ ക്ലാസിക്കുകളായ സിനിമകള്‍ക്ക് സബ്ടൈറ്റില്‍ ലഭ്യമാക്കുക എന്നതായിരുന്നു  എംസോണിന്റെ പ്രാഥമിക ദൗത്യം.  എന്നാൽ പ്രേക്ഷകരുടെ പ്രോഹത്സാഹനവും ആവശ്യങ്ങളും മാനിച്ച് ക്ലാസ്സിക് ഇതര സിനിമകളും പ്രസിദ്ധീകരിക്കുന്നുണ്ട് ഇപ്പോൾ. കൂടാതെ ഇന്ത്യയിലെ ഇതര ഭാഷാ സിനിമകളുടേയും പരിഭാഷകൾ പ്രസിദ്ധീകരിക്കുന്നു. ഇപ്പോഴത് തമിഴ് സിനിമകളുടെ വരെ പരിഭാഷയിലെത്തി നിൽക്കുന്നു.</p>
+
+ </p>
+        </div><!--
+        <div class="widget kp-newsletter-widget">
+          <form id="ajax-contact-form" action="javascript:alert('success!');" method="post" class="newsletter-form clearfix">
+            <p class="input-email clearfix">
+              <input type="text" name="email" placeholder="Type your e-mail adress" class="email" size="40" required="required">
+              <input type="submit" value="Send Up" class="submit" id="submit">
+            </p>
+          </form>
+          <div id="newsletter-response"></div>
+          </div>
+        -->
+      </div>
+    </div>
+  </div>
+  <p id="back-top"> <a href="#top"></a> </p>
+</div>
+<footer id="kp-footer">
+</footer>
+<script src="js/jquery-1.10.2.min.js"></script> 
+<script src="js/retina.js"></script> 
+<script type="text/javascript" src="../../../external.html?link=http://maps.google.com/maps/api/js?sensor=true"></script> 
+<script src="js/gmaps.js"></script>
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/custom.js" charset="utf-8"></script>
+</div>
+  <div id=msg>
+  </div>
+</body>
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/ by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:28:58 GMT -->
+</html>
+<script type="text/javascript">
+  
+  is_logged();
+</script> 
