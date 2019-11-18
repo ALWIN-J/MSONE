@@ -1,0 +1,314 @@
+  <!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/registration-login by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:30:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="utf-8">
+<title>Msone</title>
+<base  />
+<link rel="stylesheet" href="css/bootstrap.css" media="screen" />
+<link rel="stylesheet" href="css/font-awesome.css" media="all" />
+<link rel="stylesheet" href="css/superfish.css" media="all" />
+<link rel="stylesheet" href="css/awesome-weather.css" media="all" />
+<link rel="stylesheet" href="css/owl.carousel.css" media="all" />
+<link rel="stylesheet" href="css/owl.theme.css" media="all" />
+<link rel="stylesheet" href="css/flexslider.css" media="all" />
+<link rel="stylesheet" href="css/prettyPhoto.css" media="all" />
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/example.css">
+<link rel="stylesheet" href="css/extra.css">
+<link href="css/responsive.css" rel="stylesheet">
+<script src="js/modernizr.custom.60104.js"></script>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=News+Cycle:400,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+<link href='../../../external.html?link=http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,400italic' rel='stylesheet' type='text/css'>
+<link rel="shortcut icon" href="administrator/img/favicon.html">
+<script>
+  function register()
+  {
+    var u=document.getElementById('contact_name_s');
+    var p=document.getElementById('contact_pw_s');
+    var e=document.getElementById('contact_email_s');
+    if(u.value==""||p.value==""||e.value=="")
+      alert("Username , password and email are mandatory");
+    else
+    {
+    var xml=new XMLHttpRequest();
+    xml.open("GET","signup.php?e="+e.value+"&p="+p.value+"&u="+u.value,"TRUE");
+    xml.send();
+    xml.onreadystatechange=function()
+    {
+      if(this.readyState==4)
+      {
+        if(this.responseText=="0")
+        {
+          alert("Sorry the username is already taken");
+        } 
+        else
+        {
+          alert("Signed up successfully");
+          location.href="index.html";
+        }
+      }
+    }
+    }
+  }
+  function login()
+  {
+    var u=document.getElementById('contact_name');
+    var p=document.getElementById('contact_url');
+    if(u.value==""||p.value=="")
+      alert("Username and password are mandatory");
+    else
+    {
+    var xml=new XMLHttpRequest();
+    xml.open("GET","login.php?p="+p.value+"&u="+u.value,"TRUE");
+    xml.send();
+    xml.onreadystatechange=function()
+    {
+      if(this.readyState==4)
+      {
+        if(this.responseText=="0")
+        {
+          alert("Username or password is incorrect");
+        } 
+        else if(this.responseText=="1")
+        {
+          alert("Logged in successfully");
+          if(u.value=="admin")
+            location.href="admin.html";
+          else
+            location.href="index.html";
+        }
+        else if(this.responseText=="-1")
+        {
+          alert("Sorry , you are blocked from authentication. try again after 24 hrs");
+        }
+        else if(this.responseText=="-2")
+        {
+          alert("SQL injection detected , you are blocked from authentication");
+        }
+        else
+         alert(this.responseText);
+      }
+    }
+    }
+    //alert("kk")
+  }
+</script>
+</head>
+
+<body class="kp-home-2">
+<div class="kp-header">
+  <div id="header-top">
+    <div class="wrapper clearfix">      
+      <nav id="top-nav" class="pull-left">
+        <ul id="top-menu" class="clearfix">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Contact Us</a></li>
+           		   	   <li><a href="registration-login.html">Registration / Login</a></li>
+                     </ul>
+      </nav>
+      <ul class="socials-link clearfix pull-right">
+        <li><a href="https://www.facebook.com" target="_blank" class="fa fa-facebook"></a></li>
+        <li><a href="https://twitter.com" target="_blank" class="fa fa-twitter"></a></li>
+        <li><a href="https://google.com/" target="_blank" class="fa fa-google-plus"></a></li>
+        <li><a href="https://login.skype.com/login" target="_blank" class="fa fa-skype"></a></li>
+        </ul>
+    </div>
+  </div>
+  <div id="header-middle">
+    <div class="wrapper clearfix">      
+      <div id="logo-image" class="pull-left">
+      <a href="home.html">
+      <img src="upload/og.png" style="width: 30%"/>  	
+      </a>
+      </div>
+     
+      <nav id="main-nav" class="pull-right">
+        <ul id="main-menu" class="clearfix">
+          <li><a href="index.html">Home</a></li>
+          </li>
+          </li>
+          
+        </ul>
+        <i class='fa fa-align-justify'></i>
+      </nav>     
+    </div>
+  </div>
+</div>
+<div class="dark-box">
+  <div class="wrapper">
+    <div class="kp-headline-wrapper clearfix"> 
+      <div class="kp-headline clearfix">
+        <dl class="ticker-1 clearfix">
+        </dl>
+      </div>
+    </div>
+  </div>
+</div><div id="main-content">
+  <div class="wrapper">            
+    <div id="contact-box" class="col-md-6 col-sm-6">
+      <h4 class="contact-title clearfix"><span>Signup</span></h4>
+      
+      <div id="message"style="color: #e71608; font-size: 16px; margin-bottom: 15px;"></div>
+      <form action="../../../external.html?link=http://viavilab.com/codecanyon/movie_review_demo/registration.php" id="contact-form" class="clearfix" method="post">
+        <span class="c-note">Your email address will not be published. Required fields are marked<span>*</span></span>
+        
+        <div id="login_div">
+        <div class="login-form_box">   
+          <p class="input-block">
+          <label for="contact_name" class="required">Username <span>*</span></label>
+            <input type="text" placeholder="Username" id="contact_name_s" name="username" class="valid">
+            
+          </p>       
+          <p class="input-block">
+           <label for="contact_name" class="required">Email <span>*</span></label>
+            <input type="text" placeholder="Email" id="contact_email_s" name="email" class="valid">
+             
+          </p>
+          <p class="input-block">
+           <label for="contact_name" class="required">Password <span>*</span></label>
+            <input type="password" placeholder="Password" id="contact_pw_s" name="password" class="valid">
+             
+          </p>
+        </div>
+        <div class="clear"></div>
+        <p class="login-button clearfix"> 
+         <input type="button" value="Sign Up" id="submit-contact" onclick=register()>
+	      </p>
+        </div>
+      </form>
+    </div>
+    <div id="contact-box" class="col-md-6 col-sm-6">
+      <h4 class="contact-title clearfix"><span>Login</span></h4>
+       <div id="message"style="color: #e71608; font-size: 18px;"></div>
+      <form action="../../../external.html?link=http://viavilab.com/codecanyon/movie_review_demo/login.php" id="contact-form" class="clearfix" method="post">
+                   <span class="c-note">Your email address will not be published. Required fields are marked <span>*</span></span>
+        <div id="login_div">
+        <div class="login-form_box">          
+          <p class="input-block">
+            <label for="contact_email" class="required">Email <span>*</span></label>
+            <input type="text" placeholder="Username *" onfocus="if(this.value=='Email *')this.value='';" onblur="if(this.value=='')this.value='';" id="contact_name" name="email" class="valid">
+          </p>
+          <p class="input-block">
+            <label for="contact_url" class="required">Password <span>*</span></label>
+            <input type="password" value="Password *" onfocus="if(this.value=='Password *')this.value='';" onblur="if(this.value=='')this.value='Password *';" id="contact_url" name="password" class="valid">
+          </p>
+        </div>
+        <div class="clear"></div>
+        <p class="login-button clearfix"> 
+	        <input type="button" value="Login" id="submit-contact" onclick="login()"> 
+        </p>
+        </div>
+      </form>
+    </div>
+    <div class="clearfix"></div>    
+  </div>  
+</div>
+<div class="clearfix"></div>
+<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript">                                     
+$(document).ready(function()
+{ $("#ajax-contact-form").submit(function() { 
+ jQuery("#submit").attr("value", "Sending...");
+               
+var str = $(this).serialize(); $.ajax( { type: "POST", url: "send.php", data: str, success: function(msg)
+						{ if(msg == 'OK') // Message Sent? Show the 'Thank You' message and hide the form
+							{ result = '<div class="notification_ok">Your message has been sent. Thank you!<br> <a href="#" onclick="freset();return false;">send another mail</a></div>'; 
+							jQuery("#submit").attr("value", "Signup");
+							 } 							else
+							{ result = msg; } $("#note").html(result); } 
+				}); return false; }); });
+function freset()
+{ 	$("#note").html(''); 	document.getElementById('ajax-contact-form').reset(); 	$("#fields").show();}
+
+</script>
+<!--
+<div id="bottom-sidebar">
+  <div class="wrapper">
+    <div class="row">
+    <div class="col-md-4 col-sm-4">
+        <div class="widget kp-twitter-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-th-list"></i> <span class="pull-left">Genres Category</span> </h6>
+          <div id="footer_nav">
+          	  <ul>
+              	                                <li><i class="fa fa-angle-double-right"></i>  <a href="genres/1.html">Dance</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="genres/3.html">Romance</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="genres/6.html">Comedy</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="genres/7.html">Action</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="genres/9.html">Animation</a></li>
+                          <li><i class="fa fa-angle-double-right"></i>  <a href="genres/10.html">Musical</a></li>
+                               
+             </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4">
+        <div class="widget kp-latest-comments-widget">
+          <h6 class="widget-title clearfix"> <i class="fa fa-comments-o pull-left"></i> <span class="pull-left">Recent Movie</span> </h6>
+          <ul class="clearfix">
+                      <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="prem-ratan-dhan-payo--251.html"><img src="upload/12765_maxresdefault.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="prem-ratan-dhan-payo--251.html">Prem Ratan Dhan Payo </a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Oct 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="blackhat-54.html"><img src="upload/89807_blackhat.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="blackhat-54.html">Blackhat</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+                       <li>
+              <article class="entry-item clearfix">
+                <div class="entry-thumb pull-left"><a href="avengers-age-of-ultron-318.html"><img src="upload/47006_avengers-age-of-ultron.png" alt="" width="90" height="65" /></a> </div>
+                <div class="entry-content">
+                 <h6 class="entry-title"><a href="avengers-age-of-ultron-318.html">Avengers Age Of Ultron</a></h6>
+                  <span class="entry-date clearfix"><i class="fa fa-clock-o pull-left"></i><span class="pull-left">Aug 2015</span></span> </div>
+              </article>
+            </li>
+           	  
+          </ul>
+        </div>
+      </div>            
+      <div class="col-md-4 col-sm-4">
+        <div class="widget widget_text">
+          <h6 class="widget-title clearfix"> <i class="fa fa-envelope"></i> <span class="pull-left">Get In Touch</span> </h6>
+          <p><p>Nunc at pellentesque libero. Quisque quis elit eget enim facilisis gravida. Donec placerat dui nec orci tincidunt vitae tristique augue dictum. Duis nec leo vitae lorem rutrum tempor sit amet id quam sed los dui eleifend ipsum commodo luctus. Nulla et sem est. Aliquam facilisis lacinia massa, nec pretium risus pharetra at.</p>
+
+ </p>
+        </div>
+        <div class="widget kp-newsletter-widget">
+          <form id="ajax-contact-form" action="javascript:alert('success!');" method="post" class="newsletter-form clearfix">
+            <p class="input-email clearfix">
+              <input type="text" name="email" placeholder="Type your e-mail adress" class="email" size="40" required="required">
+              <input type="submit" value="Send Up" class="submit" id="submit">
+            </p>
+          </form>
+          <div id="newsletter-response"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <p id="back-top"> <a href="#top"></a> </p>
+</div>-->
+<footer id="kp-footer">
+  
+</footer>
+<script src="js/jquery-1.10.2.min.js"></script> 
+<script src="js/retina.js"></script> 
+<script type="text/javascript" src="../../../external.html?link=http://maps.google.com/maps/api/js?sensor=true"></script> 
+<script src="js/gmaps.js"></script>
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/custom.js" charset="utf-8"></script>
+</body>
+
+<!-- Mirrored from viavilab.com/codecanyon/movie_review_demo/registration-login by HTTrack Website Copier/3.x [XR&CO'2017], Thu, 19 Sep 2019 12:30:51 GMT -->
+</html>

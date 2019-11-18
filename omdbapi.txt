@@ -1,0 +1,5 @@
+http://www.omdbapi.com/?i=tt3896198&apikey=991a3ff3
+
+
+
+INSERT INTO `films` (`_id`, `Title`, `Year`, `Rated`, `Production`, `Released`, `Runtime`, `Genre`, `Director`, `ImdbVote`, `Writer`, `Actors`, `Languages`, `Country`, `Awards`, `Ratings`, `Imdbid`, `Boxoffice`) VALUES ('', 'Guardians of the Galaxy Vol. 2', '2017', 'PG-13', 'Walt Disney Pictures', '05 May 2017', '136 min', 'Action', 'James Gunn', '502,562', 'James Gunn, Dan Abnett (based on the Marvel comics by), Andy Lanning (based on the Marvel', 'Chris Pratt, Zoe Saldana, Dave Bautista, Vin Diesel', 'English', 'USA', 'Nominated for 1 Oscar. Another 12 wins & 42 nominations.', '7.6/10', 'tt3896198', '$389,804,217');
